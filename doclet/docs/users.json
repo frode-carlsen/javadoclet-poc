@@ -1,0 +1,22 @@
+{
+  "apiVersion" : "0",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/vedtak",
+  "resourcePath" : "/users",
+  "apis" : [ {
+    "path" : "/users/{userUUID}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getUser",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "format" : "uuid",
+        "paramType" : "path",
+        "name" : "userUUID",
+        "required" : true
+      } ],
+      "produces" : [ "application/xml" ]
+    } ]
+  } ]
+}
