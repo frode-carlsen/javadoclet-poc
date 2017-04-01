@@ -3,7 +3,6 @@ package fc.doc.plugins;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
@@ -22,6 +21,7 @@ import com.sun.javadoc.ClassDoc;
 
 import fc.doc.api.Model;
 import fc.doc.api.Plugin;
+import io.github.swagger2markup.GroupBy;
 import io.github.swagger2markup.Swagger2MarkupConfig;
 import io.github.swagger2markup.Swagger2MarkupConverter;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
@@ -87,18 +87,20 @@ public class SwaggerPlugin implements Plugin {
         File outputFile = new File(to, DEFAULT_SWAGGER_JSON);
         Files.write(outputFile.toPath(), Arrays.asList(swaggerJson), Charset.forName("UTF8"));
 
-        writeSwaggerDoc(swaggerJson, outputFile);
+        writeSwaggerDoc(swaggerJson, outputFile, to);
 
     }
 
-    private void writeSwaggerDoc(String swaggerJson, File outputFile) {
+    private void writeSwaggerDoc(String swaggerJson, File swaggerFile, File outputDir) {
         Swagger2MarkupConfig swagger2MarkupConfig = new Swagger2MarkupConfigBuilder()
-                .withMarkupLanguage(MarkupLanguage.MARKDOWN)
-                .withFlatBody()
+                .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
+                .withPathsGroupedBy(GroupBy.TAGS)
+                .withGeneratedExamples()
+                .withInterDocumentCrossReferences()
                 .build();
-        Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(outputFile.toURI())
+        Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(swaggerFile.toURI())
                 .withConfig(swagger2MarkupConfig).build();
-        converter.toFolder(Paths.get(DEFAULT_OUTPUTDIR));
+        converter.toFolder(outputDir.toPath());
     }
 
 }

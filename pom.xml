@@ -137,12 +137,14 @@
 
 				</configuration>
 			  </plugin>
+		
 		</plugins>
 	</build>
 
 	<properties>
 		<logback.version>1.2.1</logback.version>
 		<project.reporting.outputEncoding>UTF8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>
 	</properties>
 
 </project>

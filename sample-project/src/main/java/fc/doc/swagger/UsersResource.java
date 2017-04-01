@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 public class UsersResource {
 	@GET
 	@Path("/{userUUID}")
-	@Produces("application/xml")
+	@Produces("application/json")
 	@ApiOperation(value = "Returns user details", notes = "Returns user details.", response = User.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successful retrieval of user entity", response = User.class),

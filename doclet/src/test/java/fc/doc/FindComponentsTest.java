@@ -9,7 +9,7 @@ import org.junit.Test;
 public class FindComponentsTest {
 
 	@Test
-	public void skal_finne_relevante_komponenter_å_generere_for() throws Exception {
+	public void skal_finne_relevante_komponenter_Ã¥_generere_for() throws Exception {
 		EasyDoclet doclet = new EasyDoclet(getTestCodeLocation(), "fc.doc");
 		Sysdoclet.start(doclet.getRootDoc());
 	}
