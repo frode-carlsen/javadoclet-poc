@@ -6,7 +6,7 @@
 	<groupId>fc.doc</groupId>
 	<artifactId>sysdoclet-pom</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Sysdoclet</name>
+	<name>Sysdoclet Root</name>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -21,8 +21,8 @@
 	</repositories>
 	
 	<modules>
-		<module>sample-project</module>
 		<module>doclet</module>
+		<module>plugins</module>
 	</modules>
 	
 	<dependencyManagement>
@@ -40,6 +40,26 @@
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>2.0.1</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>fc.doc</groupId>
+				<artifactId>sysdoclet-plugins-swagger</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>fc.doc</groupId>
+				<artifactId>sysdoclet</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+			</dependency>
+			
+			
 			
 		</dependencies>
 	</dependencyManagement>

@@ -1,4 +1,4 @@
-package fc.doc.swagger;
+package fc.doc.plugin.swagger.testcode;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package fc.doc.plugins;
+package fc.doc.api;
 
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;

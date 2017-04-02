@@ -22,6 +22,7 @@ import com.sun.javadoc.ClassDoc;
 import fc.doc.api.Model;
 import fc.doc.api.Plugin;
 import io.github.swagger2markup.GroupBy;
+import io.github.swagger2markup.PageBreakLocations;
 import io.github.swagger2markup.Swagger2MarkupConfig;
 import io.github.swagger2markup.Swagger2MarkupConverter;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
@@ -97,6 +98,9 @@ public class SwaggerPlugin implements Plugin {
                 .withPathsGroupedBy(GroupBy.TAGS)
                 .withGeneratedExamples()
                 .withInterDocumentCrossReferences()
+                .withPageBreaks(Arrays.asList(PageBreakLocations.BEFORE_DEFINITION, PageBreakLocations.BEFORE_OPERATION))
+//                .withSeparatedDefinitions()
+//                .withSeparatedOperations()
                 .build();
         Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(swaggerFile.toURI())
                 .withConfig(swagger2MarkupConfig).build();

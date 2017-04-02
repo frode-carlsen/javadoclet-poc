@@ -1,10 +1,12 @@
-package fc.doc;
+package fc.doc.plugin.swagger;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.junit.Test;
+
+import fc.doc.EasyDoclet;
+import fc.doc.Sysdoclet;
 
 public class FindComponentsTest {
 
@@ -20,14 +22,14 @@ public class FindComponentsTest {
 
     private File getSampleProjectSourceLocation() {
         File file = new File(".").getAbsoluteFile();
-        while (!(new File(file, "sample-project").exists()) 
+        while (!(new File(file, "src/test/java").exists())
                 && file.getParentFile() != null) {
             file = file.getParentFile();
         }
         if (file != null) {
-            return new File(file, "sample-project/src/main/java");
+            return new File(file, "src/test/java");
         } else {
-            throw new IllegalStateException("Cannot find sample-project");
+            throw new IllegalStateException("Cannot find test code");
         }
     }
 }
