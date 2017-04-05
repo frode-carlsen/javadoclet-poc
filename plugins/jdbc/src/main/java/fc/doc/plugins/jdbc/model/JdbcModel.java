@@ -40,13 +40,13 @@ public class JdbcModel implements MarkupOutput {
         
         doc.sectionTitleLevel(sectionLevel, "Tabeller");
         for(Table t:Table.filterTables(tables, true)){
-            doc.sectionTitleLevel(sectionLevel+1, "Tabell: " + t.getName());
+            doc.sectionTitleLevel(sectionLevel+1, "Tabell: " + t.getName().toUpperCase());
             t.apply(sectionLevel, doc);
         }
         
         doc.sectionTitleLevel(sectionLevel, "Views");
         for(Table t:Table.filterTables(tables, false)){
-            doc.sectionTitleLevel(sectionLevel+1, "View: " +t.getName());
+            doc.sectionTitleLevel(sectionLevel+1, "View: " +t.getName().toUpperCase());
             t.apply(sectionLevel, doc);
         }
     }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import io.github.swagger2markup.markup.builder.MarkupBlockStyle;
 import io.github.swagger2markup.markup.builder.MarkupDocBuilder;
+import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import io.github.swagger2markup.markup.builder.MarkupTableColumn;
 
 public class Table implements MarkupOutput {
@@ -79,20 +80,23 @@ public class Table implements MarkupOutput {
         List<MarkupTableColumn> columnSpecs = new ArrayList<>();
         columnSpecs.add(new MarkupTableColumn("#", true, 10));
         columnSpecs.add(new MarkupTableColumn("Navn", true, 20));
-        columnSpecs.add(new MarkupTableColumn("Type", true, 10));
-        columnSpecs.add(new MarkupTableColumn("Default", true, 10));
-        columnSpecs.add(new MarkupTableColumn("Nullable", true, 10));
-        columnSpecs.add(new MarkupTableColumn("Constraint", true, 20));
-        columnSpecs.add(new MarkupTableColumn("Comment", true, 10));
-        columnSpecs.add(new MarkupTableColumn("FK", true, 20));
-
+        columnSpecs.add(new MarkupTableColumn("Type", false, 10));
+        columnSpecs.add(new MarkupTableColumn("Default", false, 10));
+        columnSpecs.add(new MarkupTableColumn("Nullable", false, 10));
+        columnSpecs.add(new MarkupTableColumn("Constraint", false, 20));
+        columnSpecs.add(new MarkupTableColumn("Comment", false, 10));
+        columnSpecs.add(new MarkupTableColumn("FK", false, 20));
+        
+        columnSpecs.forEach(c -> c.withMarkupSpecifiers(MarkupLanguage.ASCIIDOC, ".^" + c.widthRatio));
+        
         List<java.util.List<String>> cells = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         columns.forEach(c -> {
             cells.add(Arrays.asList(
-                    String.valueOf(i.incrementAndGet()), c.getName(), c.getType(), c.getDefaultValue(), c.isNullable()?"X":"", null, c.getComment(), null));
+                    String.valueOf(i.incrementAndGet()), c.getName(), c.getType(), c.getDefaultValue(), c.isNullable() ? "X" : "", null,
+                    c.getComment(), null));
         });
-        
+
         doc.tableWithColumnSpecs(columnSpecs, cells);
     }
 
