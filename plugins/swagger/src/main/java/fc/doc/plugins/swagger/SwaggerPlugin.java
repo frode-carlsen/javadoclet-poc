@@ -1,4 +1,4 @@
-package fc.doc.plugins;
+package fc.doc.plugins.swagger;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -35,7 +35,7 @@ import io.swagger.models.Swagger;
 public class SwaggerPlugin implements Plugin {
 
     private static final String DEFAULT_SWAGGER_JSON = "swagger.json";
-    private static final String DEFAULT_OUTPUTDIR = "./target/swagger/";
+    private static final String DEFAULT_OUTPUTDIR = System.getProperty("destDir", "./target/swagger/");
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Swagger swagger = new Swagger();
 

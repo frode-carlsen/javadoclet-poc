@@ -59,8 +59,6 @@
 				<version>3.4</version>
 			</dependency>
 			
-			
-			
 		</dependencies>
 	</dependencyManagement>
 
@@ -96,6 +94,14 @@
 			<version>3.6.2</version>
 		</dependency>
 
+		<dependency>
+			<scope>system</scope>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.8</version>
+			<systemPath>${java.home}/../lib/tools.jar</systemPath>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -134,34 +140,107 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			  <plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.4</version>
 				<configuration>
 				  <doclet>fc.doc.Sysdoclet</doclet>
-				  <docletArtifact>
-					<groupId>fc.doc</groupId>
-					<artifactId>sysdoclet</artifactId>
-					<version>1.0.0-SNAPSHOT</version>
-				  </docletArtifact>
-
-				  <destDir>SiteMap</destDir>
-
+				  <docletArtifacts>
+					  <docletArtifact>
+						<groupId>fc.doc</groupId>
+						<artifactId>sysdoclet</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					  </docletArtifact>
+					  <docletArtifact>
+						<groupId>fc.doc</groupId>
+						<artifactId>sysdoclet-plugins-jdbc</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					  </docletArtifact>
+					  <docletArtifact>
+						<groupId>fc.doc</groupId>
+						<artifactId>sysdoclet-plugins-swagger</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					  </docletArtifact>
+				  </docletArtifacts>
+				  
+				  <includeDependencySources>true</includeDependencySources>
+	 
+				  <dependencySourceIncludes>
+					<dependencySourceInclude>fc.doc:*</dependencySourceInclude>
+				  </dependencySourceIncludes>
+				  
+				  <additionalJOptions>
+					<additionalJOption>-J-Ddoc.plugin.jdbc.db.migration=filesystem:${project.basedir}/plugins/jdbc/src/test/resources/db/migration </additionalJOption>
+					<additionalJOption>-J-DdestDir=${project.build.directory}/docs</additionalJOption>
+				  </additionalJOptions>
+				  
+				  <outputDirectory>${project.build.directory}/docs</outputDirectory>
+				  <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
+				  
 				  <author>false</author>
-				  <!-- don't print the packages/classes it's running on -->
-				  <quiet>true</quiet>
-				  <debug>true</debug> <!-- save options -->
+				  <!-- <quiet>true</quiet> -->
+				  <debug>true</debug>
 				  <useStandardDocletOptions>false</useStandardDocletOptions>
 
 				</configuration>
-			  </plugin>
-		
+			
+			</plugin>
+			
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.3</version>
+				<!-- Include Asciidoctor PDF for pdf generation -->
+				<dependencies>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj-pdf</artifactId>
+						<version>1.5.0-alpha.10.1</version>
+					</dependency>
+				</dependencies>
+				<!-- Configure generic document generation settings -->
+				<configuration>
+					<sourceDirectory>${asciidoctor.input.directory}</sourceDirectory>
+					<sourceDocumentName>index.adoc</sourceDocumentName>
+					<attributes>
+						<doctype>book</doctype>
+						<toc>left</toc>
+						<toclevels>3</toclevels>
+						<numbered></numbered>
+						<hardbreaks></hardbreaks>
+						<sectlinks></sectlinks>
+						<sectanchors></sectanchors>
+						<generated>${generated.asciidoc.directory}</generated>
+					</attributes>
+				</configuration>
+				<!-- Since each execution can only handle one backend, run separate executions 
+					for each desired output type -->
+				<executions>
+					<execution>
+						<id>do-output-html</id>
+						<phase>package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html5</backend>
+							<outputDirectory>${asciidoctor.html.output.directory}</outputDirectory>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
 	<properties>
+		<asciidoctor.input.directory>${project.basedir}/src/docs/asciidoc</asciidoctor.input.directory>
+		<generated.asciidoc.directory>${project.build.directory}/docs</generated.asciidoc.directory>
+		<asciidoctor.html.output.directory>${project.build.directory}/docs/html</asciidoctor.html.output.directory>
+		<asciidoctor.pdf.output.directory>${project.build.directory}/docs/pdf</asciidoctor.pdf.output.directory>
+	
 		<logback.version>1.2.1</logback.version>
 		<project.reporting.outputEncoding>UTF8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF8</project.build.sourceEncoding>

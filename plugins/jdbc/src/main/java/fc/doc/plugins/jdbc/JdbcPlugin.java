@@ -29,6 +29,8 @@ public class JdbcPlugin implements Plugin {
 
     private static final String INMEMORY_DB_JDBC_URL = "jdbc:h2:./test;MODE=Oracle";
     private static final String INMEMORY_DB_USER = "sa";
+    
+    private static final String LOC = System.getProperty("doc.plugin.jdbc.db.migration", "classpath:db/migration");
 
     DataSource getDataSource() {
         HikariConfig config = new HikariConfig();
@@ -46,7 +48,7 @@ public class JdbcPlugin implements Plugin {
     void initMigrations(HikariDataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
-
+        flyway.setLocations(LOC);
         try {
             flyway.migrate();
         } catch (FlywayException e) {
@@ -56,7 +58,7 @@ public class JdbcPlugin implements Plugin {
     }
 
     private File getOutputLocation() {
-        File dir = new File(System.getProperty("doc.plugin.jdbc.dir", "target/jdbc"));
+        File dir = new File(System.getProperty("destDir", "target/jdbc"));
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
                 throw new IllegalStateException("Could not create output directory:" + dir);
