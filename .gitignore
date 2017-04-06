@@ -47,5 +47,5 @@ bin
 /bin
 logs
 /conf
-
+.mvn
 
